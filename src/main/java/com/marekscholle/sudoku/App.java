@@ -1,11 +1,8 @@
 package com.marekscholle.sudoku;
 
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
-
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        final var board = new Board();
+        Rules.valueOnce(board);
     }
 }

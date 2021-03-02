@@ -13,5 +13,6 @@ repositories {
 }
 
 dependencies {
+    implementation("ch.qos.logback:logback-classic:1.2.3")
     testImplementation("junit:junit:4.13")
 }
