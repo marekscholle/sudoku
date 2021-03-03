@@ -24,30 +24,28 @@ public class SingleValue implements Rule {
 
     @Override
     public void onSetValue(Pos pos, Value value) {
-        if (this.box.getPos().equals(pos)) {
-            if (!possibleValues[value.value]) {
-                throw new IllegalStateException();
-            }
-            Arrays.fill(possibleValues, false);
-            possibleValues[value.value] = true;
-            possibleCount = 1;
+        assert this.box.getPos().equals(pos);
+        if (!possibleValues[value.value]) {
+            throw new IllegalStateException(value + " is impossible");
         }
+        Arrays.fill(possibleValues, false);
+        possibleValues[value.value] = true;
+        possibleCount = 1;
     }
 
     @Override
     public void onSetImpossible(Pos pos, Value value) {
-        if (this.box.getPos().equals(pos)) {
-            if (possibleValues[value.value]) {
-                possibleValues[value.value] = false;
-                possibleCount -= 1;
-                if (possibleCount == 1) {
-                    for (int i = 0; i < SIZE; ++i) {
-                        if (possibleValues[i]) {
-                            LOGGER.debug("only possible value for {} is {}", box.getPos(), Value.of(i));
-                            box.setValue(Value.of(i));
-                        }
-                    }
-                }
+        assert this.box.getPos().equals(pos);
+        if (possibleValues[value.value]) {
+            possibleValues[value.value] = false;
+            possibleCount -= 1;
+            if (possibleCount == 1) {
+                Value.values().stream()
+                        .filter(v -> possibleValues[v.value])
+                        .forEach(v -> {
+                            LOGGER.debug("the only possible value for {} is {}", box.getPos(), v);
+                            box.setValue(v);
+                        });
             }
         }
     }

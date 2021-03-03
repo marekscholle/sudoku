@@ -24,10 +24,10 @@ public abstract class ValueOnce implements Rule {
     public void onSetValue(Pos pos, Value value) {
         if (this.value.equals(value)) {
             assert boxes.stream().anyMatch(b -> b.getPos().equals(pos));
-            LOGGER.debug("{}: set value {} at {}", description(), value, pos);
+            LOGGER.debug("{}: set {} at {}", description(), value, pos);
             boxes
                     .stream()
-                    .filter(b -> b.getPos() != pos)
+                    .filter(b -> !b.getPos().equals(pos))
                     .forEach(b -> b.setImpossible(value));
         }
     }
@@ -46,7 +46,7 @@ public abstract class ValueOnce implements Rule {
             if (possibleBoxes.size() == 1) {
                 possibleBoxes.get(0).setValue(value);
             } else if (possibleBoxes.size() == 0) {
-                throw new IllegalStateException("value has no possible value");
+                throw new IllegalStateException(value + " has no possible box");
             }
         }
     }
