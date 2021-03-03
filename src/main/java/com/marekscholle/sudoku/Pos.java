@@ -1,5 +1,7 @@
 package com.marekscholle.sudoku;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.IntStream;
 
@@ -71,6 +73,10 @@ public class Pos {
             return new Row(value);
         }
 
+        static List<Row> values() {
+            return Arrays.asList(VALUES);
+        }
+
         Row offset(int i) {
             return of(value + i);
         }
@@ -110,6 +116,10 @@ public class Pos {
 
         static Col of(int value) {
             return VALUES[value];
+        }
+
+        static List<Col> values() {
+            return Arrays.asList(VALUES);
         }
 
         Col offset(int j) {
