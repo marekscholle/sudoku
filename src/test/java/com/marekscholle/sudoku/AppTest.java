@@ -33,26 +33,28 @@ public class AppTest {
         input.forEach(in -> assertEquals(in.value, board.box(in.pos).possibleValues().get(0)));
     }
 
+    public void test(Board board, String exercise, boolean guess) {
+        var input = Input.read(exercise);
+        input.forEach(in -> board.box(in.pos).setValue(in.value));
+        if (guess) {
+            Solver.guess(board);
+        }
+        checkResult(input, board);
+        LOGGER.info("Result:\n{}", Visualizer.draw(board));
+    }
+
     @Test
     public void easy() {
         var board = new Board();
         Rules.all(board);
-        final var input = " 138  4 5| 246 5   | 87   93 |49 3 6   |  1   5  |   7 1 93| 69   74 |   2 768 |1 2  835 ";
-        var inputs = Input.read(input);
-        inputs.forEach(in -> board.box(in.pos).setValue(in.value));
-        checkResult(inputs, board);
-        LOGGER.info("Result:\n{}", Visualizer.draw(board));
+        test(board, " 138  4 5| 246 5   | 87   93 |49 3 6   |  1   5  |   7 1 93| 69   74 |   2 768 |1 2  835 ", false);
     }
 
     @Test
     public void difficultAll() {
         var board = new Board();
         Rules.all(board);
-        final var input = "  2    41|    82 7 |    4   9|2   793  | 1     8 |  681   4|1   9    | 6 43    |85    4  ";
-        var inputs = Input.read(input);
-        inputs.forEach(in -> board.box(in.pos).setValue(in.value));
-        checkResult(inputs, board);
-        LOGGER.info("Result:\n{}", Visualizer.draw(board));
+        test(board, "  2    41|    82 7 |    4   9|2   793  | 1     8 |  681   4|1   9    | 6 43    |85    4  ", false);
     }
 
     @Test
@@ -60,12 +62,6 @@ public class AppTest {
         var board = new Board();
         Rules.valueOnce(board);
         Rules.singleValue(board);
-        final var input = "  2     1|       7 |    4   9|2        | 1     8 |        4|1   9    | 6  3    |      4  ";
-        var inputs = Input.read(input);
-        inputs.forEach(in -> board.box(in.pos).setValue(in.value));
-        LOGGER.info("After input:\n{}", Visualizer.draw(board));
-        Solver.guess(board);
-        checkResult(inputs, board);
-        LOGGER.info("Result:\n{}", Visualizer.draw(board));
+        test(board, "  2    41|    82 7 |    4   9|2   793  | 1     8 |  681   4|1   9    | 6 43    |85    4  ", true);
     }
 }
