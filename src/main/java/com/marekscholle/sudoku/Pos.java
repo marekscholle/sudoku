@@ -56,7 +56,7 @@ public class Pos {
 
     @Override
     public String toString() {
-        return "Pos(" + row + "," + col + ')';
+        return "Pos(" + (row.value + 1) + "," + (col.value + 1) + ')';
     }
 
     static class Row {
@@ -100,7 +100,7 @@ public class Pos {
 
         @Override
         public String toString() {
-            return "Row(" + value + ')';
+            return "Row(" + (value + 1) + ')';
         }
     }
 
@@ -145,7 +145,7 @@ public class Pos {
 
         @Override
         public String toString() {
-            return "Col(" + value + ')';
+            return "Col(" + (value + 1) + ')';
         }
     }
 }

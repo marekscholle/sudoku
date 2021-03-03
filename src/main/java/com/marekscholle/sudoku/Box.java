@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.marekscholle.sudoku.Const.SIZE;
 
@@ -42,6 +44,10 @@ public class Box {
 
     public boolean isPossible(Value value) {
         return possibleValues[value.value];
+    }
+
+    public List<Value> possibleValues() {
+        return Value.values().stream().filter(this::isPossible).collect(Collectors.toList());
     }
 
     public void setValue(Value value) {

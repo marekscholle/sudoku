@@ -30,17 +30,21 @@ public class Board {
         return boxes[pos.row.value][pos.col.value];
     }
 
-    public List<Box> rowBoxes(Row row) {
+    public List<Box> row(Row row) {
         return Arrays.stream(boxes[row.value]).collect(Collectors.toList());
     }
 
-    public List<Box> colBoxes(Col col) {
+    public List<Box> col(Col col) {
         return IntStream.range(0, SIZE)
                 .mapToObj(i -> boxes[i][col.value])
                 .collect(Collectors.toList());
     }
 
-    public List<Box> subgrid(Pos topLeft) {
+    public List<Box> subgrid(Pos pos) {
+        final var topLeft = Pos.of(
+                (pos.row.value / SUBGRID_SIZE) * SUBGRID_SIZE,
+                (pos.col.value / SUBGRID_SIZE) * SUBGRID_SIZE
+        );
         var res = new ArrayList<Box>();
         for (int i = 0; i < SUBGRID_SIZE; ++i) {
             for (int j = 0; j < SUBGRID_SIZE; ++j) {

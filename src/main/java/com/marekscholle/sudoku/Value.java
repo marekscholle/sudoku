@@ -44,6 +44,6 @@ class Value {
 
     @Override
     public String toString() {
-        return "Value(" + value + ')';
+        return "Value(" + (value + 1) + ')';
     }
 }

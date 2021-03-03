@@ -52,7 +52,7 @@ public abstract class ValueOnce implements Rule {
     }
 
     static Rule row(Board board, Row row, Value value) {
-        return new ValueOnce(value, board.rowBoxes(row)) {
+        return new ValueOnce(value, board.row(row)) {
             @Override
             public String description() {
                 return String.format("%s once in %s", value, row);
@@ -61,7 +61,7 @@ public abstract class ValueOnce implements Rule {
     }
 
     static ValueOnce col(Board board, Col col, Value value) {
-        return new ValueOnce(value, board.colBoxes(col)) {
+        return new ValueOnce(value, board.col(col)) {
             @Override
             public String description() {
                 return String.format("%s once in col %s", value, col);

@@ -59,7 +59,7 @@ abstract public class SubgridValue implements Rule {
             }
             final var row = rows.iterator().next();
             LOGGER.info("found the row for {} at subgrid {}: {}", value, pos, row);
-            board.rowBoxes(row).forEach(b -> {
+            board.row(row).forEach(b -> {
                 if (subgrid.stream().noneMatch(s -> b.getPos().equals(s.getPos()))) {
                     b.setImpossible(value);
                 }
@@ -86,7 +86,7 @@ abstract public class SubgridValue implements Rule {
             }
             final var col = cols.iterator().next();
             LOGGER.info("found the col for {} at subgrid {}: {}", value, pos, col);
-            board.colBoxes(cols.iterator().next()).forEach(b -> {
+            board.col(cols.iterator().next()).forEach(b -> {
                 if (subgrid.stream().noneMatch(s -> b.getPos().equals(s.getPos()))) {
                     b.setImpossible(value);
                 }
