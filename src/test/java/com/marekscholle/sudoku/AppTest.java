@@ -64,4 +64,12 @@ public class AppTest {
         Rules.singleValue(board);
         test(board, "  2    41|    82 7 |    4   9|2   793  | 1     8 |  681   4|1   9    | 6 43    |85    4  ", true);
     }
+
+    @Test
+    public void empty() {
+        var board = new Board();
+        Rules.all(board);
+        Solver.guess(board);
+        LOGGER.info("empty solution (one of many):\n{}", Visualizer.draw(board));
+    }
 }
