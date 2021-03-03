@@ -3,6 +3,7 @@ package com.marekscholle.sudoku;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.marekscholle.sudoku.Const.SIZE;
@@ -19,6 +20,10 @@ public class Pos {
                                     .toArray(Pos[]::new)
                     )
                     .toArray(Pos[][]::new);
+    private static final List<Pos> FLAT_VALUES =
+            Arrays.stream(VALUES)
+                    .flatMap(Arrays::stream)
+                    .collect(Collectors.toUnmodifiableList());
 
     private Pos(Row row, Col col) {
         this.row = row;
@@ -31,6 +36,10 @@ public class Pos {
 
     static Pos of(int i, int j) {
         return VALUES[i][j];
+    }
+
+    static List<Pos> values() {
+        return FLAT_VALUES;
     }
 
     Pos offset(int i, int j) {

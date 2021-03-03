@@ -3,41 +3,24 @@ package com.marekscholle.sudoku;
 import com.marekscholle.sudoku.Pos.Col;
 import com.marekscholle.sudoku.Pos.Row;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static com.marekscholle.sudoku.Const.SIZE;
 import static com.marekscholle.sudoku.Const.SUBGRID_SIZE;
 
 public class Rules {
-    @SuppressWarnings("UnusedReturnValue")
-    static List<Rule> valueOnce(Board board) {
-        final var rules = new ArrayList<Rule>();
-        for (int value = 0; value < SIZE; ++value) {
-            for (int i = 0; i < SIZE; ++i) {
-                rules.add(ValueOnce.row(board, Row.of(i), Value.of(value)));
-            }
-            for (int j = 0; j < SIZE; ++j) {
-                rules.add(ValueOnce.col(board, Col.of(j), Value.of(value)));
-            }
+    static void valueOnce(Board board) {
+        Value.values().forEach(value -> {
+            Row.values().forEach(row -> ValueOnce.row(board, row, value));
+            Col.values().forEach(col -> ValueOnce.col(board, col, value));
             for (int i = 0; i < SIZE; i += SUBGRID_SIZE) {
                 for (int j = 0; j < SIZE; j += SUBGRID_SIZE) {
-                    rules.add(ValueOnce.subgrid(board, Pos.of(Row.of(i), Col.of(j)), Value.of(value)));
+                    ValueOnce.subgrid(board, Pos.of(i, j), value);
                 }
             }
-        }
-        return rules;
+        });
     }
 
-    @SuppressWarnings("UnusedReturnValue")
-    static List<Rule> singleValue(Board board) {
-        final var rules = new ArrayList<Rule>();
-        for (int i = 0; i < SIZE; ++i) {
-            for (int j = 0; j < SIZE; ++j) {
-                rules.add(new SingleValue(board.box(Pos.of(Row.of(i), Col.of(j)))));
-            }
-        }
-        return rules;
+    static void singleValue(Board board) {
+        Pos.values().forEach(pos -> new SingleValue(board.box(pos)));
     }
 
     static void subgridValue(Board board) {
