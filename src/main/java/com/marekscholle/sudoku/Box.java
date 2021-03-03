@@ -35,7 +35,7 @@ public class Box {
 
     public void setImpossible(Value value) {
         if (this.value.isPresent() && this.value.get().equals(value)) {
-            throw new IllegalStateException("value can't be set to impossible");
+            throw new IllegalStateException("set value can't be impossible");
         }
         if (possibleValues[value.value]) {
             LOGGER.debug("set impossible: {}, {}", pos, value);
@@ -49,44 +49,54 @@ public class Box {
     }
 
     public List<Value> possibleValues() {
-        return Value.values().stream().filter(this::isPossible).collect(Collectors.toList());
+        return Value.values().stream()
+                .filter(this::isPossible)
+                .collect(Collectors.toList());
+    }
+
+    public int possibleValueCount() {
+        int res = 0;
+        for (var v : possibleValues) {
+            if (v) {
+                ++res;
+            }
+        }
+        return res;
     }
 
     public void setValue(Value value) {
         if (this.value.isPresent()) {
             if (!this.value.get().equals(value)) {
-                throw new IllegalStateException("setting different value");
+                throw new IllegalStateException("set different value");
             }
             return;
         }
-        assert possibleValues[value.value];
 
         LOGGER.info("set value: {}, {}", pos, value);
         this.value = Optional.of(value);
-
         Value.values().stream()
                 .filter(v -> !v.equals(value))
                 .forEach(this::setImpossible);
         listeners.forEach(l -> l.onSetValue(pos, value));
     }
 
-    public Snap snap() {
-        return new Snap(
+    public Snapshot snap() {
+        return new Snapshot(
                 Arrays.copyOf(possibleValues, possibleValues.length),
                 this.value
         );
     }
 
-    public void recover(Snap snap) {
-        this.possibleValues = Arrays.copyOf(snap.possibleValues, snap.possibleValues.length);
-        this.value = snap.value;
+    public void restore(Snapshot snapshot) {
+        this.possibleValues = Arrays.copyOf(snapshot.possibleValues, snapshot.possibleValues.length);
+        this.value = snapshot.value;
     }
 
-    static class Snap {
+    static class Snapshot {
         private final boolean[] possibleValues;
         private final Optional<Value> value;
 
-        Snap(boolean[] possibleValues, Optional<Value> value) {
+        Snapshot(boolean[] possibleValues, Optional<Value> value) {
             this.possibleValues = possibleValues;
             this.value = value;
         }

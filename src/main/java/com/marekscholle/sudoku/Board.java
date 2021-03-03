@@ -9,9 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-import static com.marekscholle.sudoku.Const.SIZE;
 import static com.marekscholle.sudoku.Const.SUBGRID_SIZE;
 
 public class Board {
@@ -33,8 +31,8 @@ public class Board {
     }
 
     public List<Box> col(Col col) {
-        return IntStream.range(0, SIZE)
-                .mapToObj(i -> boxes[i][col.value])
+        return Row.values().stream()
+                .map(row -> boxes[row.value][col.value])
                 .collect(Collectors.toList());
     }
 
@@ -52,23 +50,24 @@ public class Board {
         return res;
     }
 
-    public Snap snap() {
-        return new Snap(
-                Pos.values().stream().collect(Collectors.toMap(
-                        Function.identity(),
-                        pos -> box(pos).snap()
-                ))
+    public Snapshot snapshot() {
+        return new Snapshot(
+                Pos.values().stream()
+                        .collect(Collectors.toMap(
+                                Function.identity(),
+                                pos -> box(pos).snap()
+                        ))
         );
     }
 
-    public void recover(Snap snap) {
-        snap.boxes.forEach((key, value) -> box(key).recover(value));
+    public void restore(Snapshot snapshot) {
+        snapshot.boxes.forEach((key, value) -> box(key).restore(value));
     }
 
-    static class Snap {
-        private final Map<Pos, Box.Snap> boxes;
+    static class Snapshot {
+        private final Map<Pos, Box.Snapshot> boxes;
 
-        Snap(Map<Pos, Box.Snap> boxes) {
+        Snapshot(Map<Pos, Box.Snapshot> boxes) {
             this.boxes = boxes;
         }
     }

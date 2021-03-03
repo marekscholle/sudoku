@@ -65,25 +65,26 @@ public class Pos {
 
     @Override
     public String toString() {
-        return "Pos(" + (row.value + 1) + "," + (col.value + 1) + ')';
+        return "Pos(" + row.value + "," + col.value + ')';
     }
 
     static class Row {
         final int value;
 
-        private static final Row[] VALUES =
-                IntStream.range(0, SIZE).mapToObj(Row::new).toArray(Row[]::new);
+        private static final List<Row> VALUES =
+                IntStream.range(0, SIZE).mapToObj(Row::new)
+                        .collect(Collectors.toUnmodifiableList());
 
         private Row(int value) {
             this.value = value;
         }
 
         static Row of(int value) {
-            return new Row(value);
+            return VALUES.get(value);
         }
 
         static List<Row> values() {
-            return Arrays.asList(VALUES);
+            return VALUES;
         }
 
         Row offset(int i) {
@@ -116,19 +117,20 @@ public class Pos {
     static class Col {
         final int value;
 
-        private static final Col[] VALUES =
-                IntStream.range(0, SIZE).mapToObj(Col::new).toArray(Col[]::new);
+        private static final List<Col> VALUES =
+                IntStream.range(0, SIZE).mapToObj(Col::new)
+                        .collect(Collectors.toList());
 
         private Col(int value) {
             this.value = value;
         }
 
         static Col of(int value) {
-            return VALUES[value];
+            return VALUES.get(value);
         }
 
         static List<Col> values() {
-            return Arrays.asList(VALUES);
+            return VALUES;
         }
 
         Col offset(int j) {
@@ -154,7 +156,7 @@ public class Pos {
 
         @Override
         public String toString() {
-            return "Col(" + (value + 1) + ')';
+            return "Col(" + value + ')';
         }
     }
 }

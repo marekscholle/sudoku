@@ -26,16 +26,16 @@ public class AppTest {
         assertEquals(SIZE, set.size());
     }
 
-    private static void checkResult(List<Input.Elem> input,  Board board) {
+    private static void checkResult(Input input, Board board) {
         Row.values().forEach(row -> checkUnique(board.row(row)));
         Col.values().forEach(col -> checkUnique(board.col(col)));
         Row.values().forEach(row -> Col.values().forEach(col -> checkUnique(board.subgrid(Pos.of(row, col)))));
-        input.forEach(in -> assertEquals(in.value, board.box(in.pos).possibleValues().get(0)));
+        input.elems.forEach(e -> assertEquals(e.value, board.box(e.pos).possibleValues().get(0)));
     }
 
     public void test(Board board, String exercise, boolean guess) {
         var input = Input.read(exercise);
-        input.forEach(in -> board.box(in.pos).setValue(in.value));
+        input.elems.forEach(e -> board.box(e.pos).setValue(e.value));
         if (guess) {
             Solver.guess(board);
         }

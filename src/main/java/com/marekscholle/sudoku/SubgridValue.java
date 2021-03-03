@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * If a value is possible in subgrid only in some row/col, then it is impossible
+ * If a value is possible only in some row/col in subgrid, then it is impossible
  * on the same row/col in other subgrids.
  */
 abstract public class SubgridValue implements Rule {

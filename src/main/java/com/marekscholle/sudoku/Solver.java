@@ -9,22 +9,29 @@ import java.util.Optional;
 public class Solver {
     private static final Logger LOGGER = LoggerFactory.getLogger("Solver");
 
+    /**
+     * Recursive trial of solution.
+     * It returns true if we have a solution.
+     * It selects a box and tries its possible values. For each possible value,
+     * it runs all the rules; if we reach a problem, exception is thrown and we
+     * restore the state before setting and continue.
+     * If we don't get a solution, we recursively try another box.
+     */
     static boolean guess(Board board) {
-        // TODO by min possibleValues
-        final Optional<Box> first = Pos.values().stream()
+        // find a box with multiple possible values; select that has min possible values (>1)
+        final Optional<Box> boxOptional = Pos.values().stream()
                 .map(board::box)
-                .filter(b -> b.possibleValues().size() > 1)
-                .min(Comparator.comparingInt(b -> b.possibleValues().size()));
-        if (first.isEmpty()) {
-            LOGGER.info("board is solved, terminating guess");
+                .filter(b -> b.possibleValueCount() > 1)
+                .min(Comparator.comparingInt(Box::possibleValueCount));
+        if (boxOptional.isEmpty()) {
+            LOGGER.info("board is solved, terminating");
             return true;
         }
-
-        final var box = first.get();
-        LOGGER.info("guessing value for {} from {}", box.getPos(), box.possibleValues());
+        final var box = boxOptional.get();
+        LOGGER.info("guessing value, {}, from {}", box.getPos(), box.possibleValues());
 
         LOGGER.debug("snapping: {}", box.getPos());
-        final var snap = board.snap();
+        final var snapshot = board.snapshot();
         for (final var value : box.possibleValues()) {
             LOGGER.debug("trying: {}, {}", box.getPos(), value);
             try {
@@ -33,8 +40,8 @@ public class Solver {
                     return true;
                 }
             } catch (Exception e) {
-                LOGGER.debug("recover: {}", box.getPos());
-                board.recover(snap);
+                LOGGER.debug("restore: {}", box.getPos());
+                board.restore(snapshot);
             }
         }
         throw new IllegalStateException("guess did not solve the board");

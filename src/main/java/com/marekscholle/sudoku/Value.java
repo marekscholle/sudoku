@@ -1,8 +1,8 @@
 package com.marekscholle.sudoku;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.marekscholle.sudoku.Const.SIZE;
@@ -10,19 +10,19 @@ import static com.marekscholle.sudoku.Const.SIZE;
 class Value {
     final int value;
 
-    private static final Value[] VALUES =
-            IntStream.range(0, SIZE).mapToObj(Value::new).toArray(Value[]::new);
+    private static final List<Value> VALUES =
+            IntStream.range(0, SIZE).mapToObj(Value::new).collect(Collectors.toUnmodifiableList());
 
     private Value(int value) {
         this.value = value;
     }
 
     static Value of(int value) {
-        return VALUES[value];
+        return VALUES.get(value);
     }
 
     static List<Value> values() {
-        return Arrays.asList(VALUES);
+        return VALUES;
     }
 
     @Override
@@ -44,6 +44,6 @@ class Value {
 
     @Override
     public String toString() {
-        return "Value(" + (value + 1) + ')';
+        return "Value(" + value + ')';
     }
 }
