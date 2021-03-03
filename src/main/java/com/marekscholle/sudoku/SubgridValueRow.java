@@ -4,17 +4,19 @@ import com.marekscholle.sudoku.Pos.Row;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-import static com.marekscholle.sudoku.Const.SUBGRID_SIZE;
-
+/**
+ * If a value is possible in subgrid only in some row, then it is impossible
+ * on the same row in other subgrids.
+ */
 public class SubgridValueRow implements Rule {
     private static final Logger LOGGER = LoggerFactory.getLogger("SubgridValueRow");
 
     private final List<Box> subgrid;
     private final Value value;
-    final Row[] possibleRows = new Row[SUBGRID_SIZE];
     private final Board board;
 
     SubgridValueRow(Board board, List<Box> subgrid, Value value) {
@@ -34,30 +36,18 @@ public class SubgridValueRow implements Rule {
             return;
         }
 
-        // TODO
-        Arrays.fill(possibleRows, null);
+        final Set<Row> rows = new HashSet<>();
         subgrid.forEach(b -> {
             if (b.isPossible(value)) {
-                possibleRows[b.getPos().row.value % SUBGRID_SIZE] = b.getPos().row;
+                rows.add(b.getPos().row);
             }
         });
-        Row row = null;
-        for (int i = 0; i < SUBGRID_SIZE; ++i) {
-            if (row != null && possibleRows[i] != null) {
-                return;
-            }
-            if (possibleRows[i] != null) {
-                row = possibleRows[i];
-            }
+        if (rows.size() == 1) {
+            board.rowBoxes(rows.iterator().next()).forEach(b -> {
+                if (subgrid.stream().noneMatch(s -> b.getPos().equals(s.getPos()))) {
+                    b.setImpossible(value);
+                }
+            });
         }
-        if (row == null) {
-            return;
-        }
-
-        board.rowBoxes(row).forEach(b -> {
-            if (subgrid.stream().noneMatch(s -> b.getPos().equals(s.getPos()))) {
-                b.setImpossible(value);
-            }
-        });
     }
 }
