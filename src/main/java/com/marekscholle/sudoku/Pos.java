@@ -24,11 +24,11 @@ public class Pos {
     }
 
     static Pos of(Row row, Col col) {
-        return VALUES[row.value][col.value];
+        return of(row.value, col.value);
     }
 
     static Pos of(int i, int j) {
-        return new Pos(Row.of(i), Col.of(j));
+        return VALUES[i][j];
     }
 
     Pos offset(int i, int j) {

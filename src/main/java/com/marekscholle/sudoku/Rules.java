@@ -40,12 +40,14 @@ public class Rules {
         return rules;
     }
 
-    static void subgridValueRow(Board board) {
+    static void subgridValue(Board board) {
         for (int i = 0; i < SIZE; i += SUBGRID_SIZE) {
             for (int j = 0; j < SIZE; j += SUBGRID_SIZE) {
-                for (int value = 0; value < SIZE; ++value) {
-                    new SubgridValueRow(board, board.subgrid(Pos.of(Row.of(i), Col.of(j))), Value.of(value));
-                }
+                final var pos = Pos.of(i, j);
+                Value.values().forEach(v -> {
+                    new SubgridValue.Row(board, board.subgrid(pos), v);
+                    new SubgridValue.Col(board, board.subgrid(pos), v);
+                });
             }
         }
     }
@@ -53,6 +55,6 @@ public class Rules {
     static void all(Board board) {
         valueOnce(board);
         singleValue(board);
-        subgridValueRow(board);
+        subgridValue(board);
     }
 }
