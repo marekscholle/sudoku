@@ -3,7 +3,7 @@ Sudoku solver, a homework for some company hiring process.
 Written in Java as requested.
 Quite primitive solution that runs internal triggers on the stack, 
 but the problem is small enough so that we don't get stack overflow.
-Uses exception for internal error detection; 
+Uses exceptions for internal error detection; 
 but without language or library support we can't do much better
 (in Scala, we would probably use `Either`). The primitive wrappers
 (`Value`, `Row`, `Col`) would also be much simpler 
@@ -36,14 +36,14 @@ At the end of application logs you will see the result:
 The only argument is the input state of board, rows separated by `|`, 
 with spaces for numbers to be filled in.
 
-It provides a hint on invalid input:
+The application provides a hint if the input is invalid:
 ```
 ./gradlew run --args='"11       |         |         |         |         |         |         |         |         "'
 ```
-yields:
+yields
 ```
 [2021-03-03 15:05:50.843] [INFO] App - set Pos(0,1) to Value(0)
-Error while solving, perhaps there is no solution for it
+Error while solving the puzzle, perhaps there is no solution for it.
 java.lang.IllegalStateException: set different value
         at com.marekscholle.sudoku.Box.setValue(Box.java:78)
         ...
@@ -53,27 +53,29 @@ We can't reliably recognize a programming bug from invalid input.
 ## Implementation
 
 The idea is simple, for every field in the 9x9 board (grid) we store which 
-numbers are possible/impossible, and on any change we run trigger
+numbers are possible/impossible, and on any progress we make we run trigger
 rule checkers that may do some more progress. E.g. if we set a number as 
 impossible for a field and we detect there remains only one possible value
 for the field, we set it ... and trigger another cascade of such checks.
 
 If our primitive checkers can't make any progress, we take an appropriate
 field and try to set possible values for it and solve the problem
-as it were part of input. This of course has recursive nature. If we run
+as it were part of input. This of course has a recursive nature. If we run
 into a problem (we tried a bad number), we restore the state from backup
 and try next possible value. The solver is very quick for inputs I tried;
-so this inherently single-threaded mutable solution looks fine.
+so this inherently single-threaded mutable solution looks good enough.
 
-The application starts with empty board where we set the values from input 
-one by. one. If the puzzle has no solution, we will detect a problem 
+The application starts with an empty board where we set the values from input 
+one by one. If the puzzle has no solution, we will detect a problem 
 somewhere in the process, throw an exception and report the fail to user.
-It may happen there are multiple solutions; if so, we output some of them.
+It may happen there are multiple solutions; if so, we output some of them
+(which one depends on selection of the field we try to guess and order
+of value we try for it).
 
-This may be seen if we run the application with empty board (extreme case):
+This may be seen if we run the application with empty board (a useful, extreme case):
 
 ```
-<runtheapp> "         |         |         |         |         |         |         |         |         "
+./gradlew run --args='"         |         |         |         |         |         |         |         |         "'
 ```
 
 ```
@@ -98,3 +100,4 @@ This may be seen if we run the application with empty board (extreme case):
 - Tests for input reader and vizualizer.
 - Some tests where time is spent, maybe optimization 
   of some rule implementations.
+- Better communication of errors, but not worth for small application and Java. 
