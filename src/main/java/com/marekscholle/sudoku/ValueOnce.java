@@ -51,6 +51,7 @@ public abstract class ValueOnce implements Rule {
         }
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     static Rule row(Board board, Row row, Value value) {
         return new ValueOnce(value, board.row(row)) {
             @Override
@@ -60,6 +61,7 @@ public abstract class ValueOnce implements Rule {
         };
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     static ValueOnce col(Board board, Col col, Value value) {
         return new ValueOnce(value, board.col(col)) {
             @Override
@@ -69,6 +71,7 @@ public abstract class ValueOnce implements Rule {
         };
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     static ValueOnce subgrid(Board board, Pos topLeft, Value value) {
         return new ValueOnce(value, board.subgrid(topLeft)) {
             @Override
