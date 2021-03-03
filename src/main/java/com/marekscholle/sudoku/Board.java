@@ -1,8 +1,7 @@
 package com.marekscholle.sudoku;
 
-import com.marekscholle.sudoku.Coords.Col;
-import com.marekscholle.sudoku.Coords.Pos;
-import com.marekscholle.sudoku.Coords.Row;
+import com.marekscholle.sudoku.Pos.Col;
+import com.marekscholle.sudoku.Pos.Row;
 
 import java.util.ArrayList;
 import java.util.Arrays;

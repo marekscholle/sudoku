@@ -1,9 +1,8 @@
 package com.marekscholle.sudoku;
 
 import com.marekscholle.sudoku.Const.Value;
-import com.marekscholle.sudoku.Coords.Col;
-import com.marekscholle.sudoku.Coords.Pos;
-import com.marekscholle.sudoku.Coords.Row;
+import com.marekscholle.sudoku.Pos.Col;
+import com.marekscholle.sudoku.Pos.Row;
 
 import static com.marekscholle.sudoku.Const.SIZE;
 import static com.marekscholle.sudoku.Const.SUBGRID_SIZE;

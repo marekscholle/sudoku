@@ -1,13 +1,12 @@
 package com.marekscholle.sudoku;
 
 import com.marekscholle.sudoku.Const.Value;
-import com.marekscholle.sudoku.Coords.Row;
+import com.marekscholle.sudoku.Pos.Row;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 import static com.marekscholle.sudoku.Const.SUBGRID_SIZE;
 
@@ -27,12 +26,14 @@ public class SubgridValueRow implements Rule {
     }
 
     @Override
-    public void onSetValue(Coords.Pos pos, Value value) {
+    public void onSetValue(Pos pos, Value value) {
     }
 
     @Override
-    public void onSetImpossible(Coords.Pos pos, Value value) {
-        if (!this.value.equals(value)) return;
+    public void onSetImpossible(Pos pos, Value value) {
+        if (!this.value.equals(value)) {
+            return;
+        }
 
         // TODO
         Arrays.fill(possibleRows, null);
@@ -50,7 +51,9 @@ public class SubgridValueRow implements Rule {
                 row = possibleRows[i];
             }
         }
-        if (row == null) return;
+        if (row == null) {
+            return;
+        }
 
         board.rowBoxes(row).forEach(b -> {
             if (subgrid.stream().noneMatch(s -> b.getPos().equals(s.getPos()))) {

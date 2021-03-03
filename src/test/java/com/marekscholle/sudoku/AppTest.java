@@ -1,9 +1,8 @@
 package com.marekscholle.sudoku;
 
 import com.marekscholle.sudoku.Const.Value;
-import com.marekscholle.sudoku.Coords.Col;
-import com.marekscholle.sudoku.Coords.Pos;
-import com.marekscholle.sudoku.Coords.Row;
+import com.marekscholle.sudoku.Pos.Col;
+import com.marekscholle.sudoku.Pos.Row;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,7 +39,7 @@ public class AppTest {
         assert rows.length == SIZE;
         assert Arrays.stream(rows).allMatch(r -> r.length() == SIZE);
         for (int i = 0; i < SIZE; ++i) {
-            var r= rows[i];
+            var r = rows[i];
             for (int j = 0; j < SIZE; ++j) {
                 if (r.charAt(j) != ' ') {
                     var v = Character.getNumericValue(r.charAt(j));
@@ -64,10 +63,10 @@ public class AppTest {
         var inputs = read(input);
 
         inputs.forEach(
-            in -> {
-                LOGGER.info("set {} to {}", in.pos, in.value);
-                board.box(in.pos).setValue(in.value);
-            }
+                in -> {
+                    LOGGER.info("set {} to {}", in.pos, in.value);
+                    board.box(in.pos).setValue(in.value);
+                }
         );
 
         LOGGER.info("\n{}", Visualizer.draw(board));
