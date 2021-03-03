@@ -47,6 +47,8 @@ public class AppTest {
     public void difficult() {
         var board = new Board();
         Rules.all(board);
+        //Rules.valueOnce(board);
+        //Rules.singleValue(board);
         final var input = "  2    41|    82 7 |    4   9|2   793  | 1     8 |  681   4|1   9    | 6 43    |85    4  ";
         var inputs = Input.read(input);
         inputs.forEach(in -> board.box(in.pos).setValue(in.value));

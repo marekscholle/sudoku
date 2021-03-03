@@ -17,7 +17,6 @@ abstract public class SubgridValue implements Rule {
     protected final List<Box> subgrid;
     protected final Value value;
     protected final Board board;
-    private boolean done = false;
 
     SubgridValue(Board board, List<Box> subgrid, Value value) {
         this.board = board;
@@ -32,14 +31,14 @@ abstract public class SubgridValue implements Rule {
 
     @Override
     public void onSetImpossible(Pos pos, Value value) {
-        if (done || !this.value.equals(value)) {
+        if (!this.value.equals(value)) {
             return;
         }
-        done = _onSetImpossible(pos, value);
+        _onSetImpossible(pos, value);
     }
 
     // Implementations for Row and Col are copy-pasted, but it is not worth to generalize.
-    protected abstract boolean _onSetImpossible(Pos pos, Value value);
+    protected abstract void _onSetImpossible(Pos pos, Value value);
 
     static class Row extends SubgridValue {
         Row(Board board, List<Box> subgrid, Value value) {
@@ -47,7 +46,7 @@ abstract public class SubgridValue implements Rule {
         }
 
         @Override
-        protected boolean _onSetImpossible(Pos pos, Value value) {
+        protected void _onSetImpossible(Pos pos, Value value) {
             final Set<Pos.Row> rows = new HashSet<>();
             subgrid.forEach(b -> {
                 if (b.isPossible(value)) {
@@ -55,7 +54,7 @@ abstract public class SubgridValue implements Rule {
                 }
             });
             if (rows.size() != 1) {
-                return false;
+                return;
             }
             final var row = rows.iterator().next();
             LOGGER.info("found the row for {} at subgrid {}: {}", value, pos, row);
@@ -64,7 +63,6 @@ abstract public class SubgridValue implements Rule {
                     b.setImpossible(value);
                 }
             });
-            return true;
         }
     }
 
@@ -74,7 +72,7 @@ abstract public class SubgridValue implements Rule {
         }
 
         @Override
-        protected boolean _onSetImpossible(Pos pos, Value value) {
+        protected void _onSetImpossible(Pos pos, Value value) {
             final Set<Pos.Col> cols = new HashSet<>();
             subgrid.forEach(b -> {
                 if (b.isPossible(value)) {
@@ -82,7 +80,7 @@ abstract public class SubgridValue implements Rule {
                 }
             });
             if (cols.size() != 1) {
-                return false;
+                return;
             }
             final var col = cols.iterator().next();
             LOGGER.info("found the col for {} at subgrid {}: {}", value, pos, col);
@@ -91,7 +89,6 @@ abstract public class SubgridValue implements Rule {
                     b.setImpossible(value);
                 }
             });
-            return true;
         }
     }
 }
