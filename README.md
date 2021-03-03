@@ -1,6 +1,8 @@
 # sudoku
-Sudoku solver, a homework for some company hiring process.
-Written in Java as requested.
+Sudoku solver, a homework for one company hiring process.
+Written in Java as requested. About 2 hours of thinking 
+and 8 hours of implementation.
+
 Quite primitive solution that runs internal triggers on the stack, 
 but the problem is small enough so that we don't get stack overflow.
 Uses exceptions for internal error detection; 
