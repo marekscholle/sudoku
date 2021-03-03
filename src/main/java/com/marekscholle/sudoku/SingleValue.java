@@ -45,7 +45,7 @@ public class SingleValue implements Rule {
                 if (possibleCount == 1) {
                     for (int i = 0; i < SIZE; ++i) {
                         if (possibleValues[i]) {
-                            LOGGER.info("only possible value for {} is {}", box.getPos(), Value.of(i));
+                            LOGGER.debug("only possible value for {} is {}", box.getPos(), Value.of(i));
                             box.setValue(Value.of(i));
                         }
                     }

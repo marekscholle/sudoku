@@ -41,4 +41,20 @@ public class Rules {
         }
         return rules;
     }
+
+    static void subgridValueRow(Board board) {
+        for (int i = 0; i < SIZE; i += SUBGRID_SIZE) {
+            for (int j = 0; j < SIZE; j += SUBGRID_SIZE) {
+                for (int value = 0; value < SIZE; ++value) {
+                    new SubgridValueRow(board, board.subgrid(Pos.of(Row.of(i), Col.of(j))), Value.of(value));
+                }
+            }
+        }
+    }
+
+    static void all(Board board) {
+        valueOnce(board);
+        singleValue(board);
+        subgridValueRow(board);
+    }
 }

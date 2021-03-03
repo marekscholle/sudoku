@@ -57,6 +57,7 @@ public class AppTest {
         LOGGER.info("\n{}", Visualizer.draw(board));
         Rules.valueOnce(board);
         Rules.singleValue(board);
+        Rules.subgridValueRow(board);
 
         //final var input = " 138  4 5| 246 5   | 87   93 |49 3 6   |  1   5  |   7 1 93| 69   74 |   2 768 |1 2  835 ";
         final var input = "  2    41|    82 7 |    4   9|2   793  | 1     8 |  681   4|1   9    | 6 43    |85    4  ";
@@ -66,8 +67,9 @@ public class AppTest {
             in -> {
                 LOGGER.info("set {} to {}", in.pos, in.value);
                 board.box(in.pos).setValue(in.value);
-                LOGGER.info("\n{}", Visualizer.draw(board));
             }
         );
+
+        LOGGER.info("\n{}", Visualizer.draw(board));
     }
 }

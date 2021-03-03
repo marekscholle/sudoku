@@ -4,7 +4,9 @@
             <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS}] [%level] %logger{0} - %msg%n</pattern>
         </encoder>
     </appender>
-    <logger name="ValueOnce" level="DEBUG"/>
+    <logger name="ValueOnce" level="INFO"/>
+    <logger name="Box" level="INFO"/>
+    <logger name="SingleValue" level="INFO"/>
     <root level="DEBUG">
         <appender-ref ref="console"/>
     </root>
