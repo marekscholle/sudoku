@@ -17,10 +17,10 @@ public class Pos {
     final Col col;
 
     private static final Pos[][] VALUES =
-            IntStream.range(0, SIZE)
-                    .mapToObj(i ->
-                            IntStream.range(0, SIZE)
-                                    .mapToObj(j -> new Pos(Row.of(i), Col.of(j)))
+            Row.values().stream()
+                    .map(row ->
+                            Col.values().stream()
+                                    .map(col -> new Pos(row, col))
                                     .toArray(Pos[]::new)
                     )
                     .toArray(Pos[][]::new);
