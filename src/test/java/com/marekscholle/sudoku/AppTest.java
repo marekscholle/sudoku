@@ -44,15 +44,27 @@ public class AppTest {
     }
 
     @Test
-    public void difficult() {
+    public void difficultAll() {
         var board = new Board();
-        //Rules.all(board);
+        Rules.all(board);
+        final var input = "  2    41|    82 7 |    4   9|2   793  | 1     8 |  681   4|1   9    | 6 43    |85    4  ";
+        var inputs = Input.read(input);
+        inputs.forEach(in -> board.box(in.pos).setValue(in.value));
+        checkResult(board);
+        LOGGER.info("Result:\n{}", Visualizer.draw(board));
+    }
+
+    @Test
+    public void difficultGuess() {
+        var board = new Board();
         Rules.valueOnce(board);
         Rules.singleValue(board);
         final var input = "  2    41|    82 7 |    4   9|2   793  | 1     8 |  681   4|1   9    | 6 43    |85    4  ";
         var inputs = Input.read(input);
         inputs.forEach(in -> board.box(in.pos).setValue(in.value));
-        //checkResult(board);
+        LOGGER.info("After input:\n{}", Visualizer.draw(board));
+        Solver.guess(board);
+        checkResult(board);
         LOGGER.info("Result:\n{}", Visualizer.draw(board));
     }
 }

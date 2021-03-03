@@ -8,6 +8,7 @@
     <logger name="Box" level="WARN"/>
     <logger name="SingleValue" level="WARN"/>
     <logger name="SubgridValue" level="WARN"/>
+    <logger name="Solver" level="INFO"/>
     <root level="DEBUG">
         <appender-ref ref="console"/>
     </root>

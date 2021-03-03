@@ -24,7 +24,6 @@ public class App {
         );
         LOGGER.info("Intermediate result after set all input values:\n{}", Visualizer.draw(board));
 
-
         Solver.guess(board);
         LOGGER.info("Result:\n{}", Visualizer.draw(board));
     }

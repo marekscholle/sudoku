@@ -34,7 +34,9 @@ public class Box {
     }
 
     public void setImpossible(Value value) {
-        assert this.value.stream().noneMatch(v -> v.equals(value));
+        if (this.value.isPresent() && this.value.get().equals(value)) {
+            throw new IllegalStateException("value can't be set to impossible");
+        }
         if (possibleValues[value.value]) {
             LOGGER.debug("set impossible: {}, {}", pos, value);
             possibleValues[value.value] = false;
@@ -52,7 +54,9 @@ public class Box {
 
     public void setValue(Value value) {
         if (this.value.isPresent()) {
-            assert this.value.get().equals(value);
+            if (!this.value.get().equals(value)) {
+                throw new IllegalStateException("setting different value");
+            }
             return;
         }
         assert possibleValues[value.value];
