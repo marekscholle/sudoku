@@ -7,7 +7,7 @@ public class App {
     private static final Logger LOGGER = LoggerFactory.getLogger("App");
 
     public static void main(String[] args) {
-        var input = Input.read(args[0]);
+        final var input = Input.read(args[0]);
 
         final var board = new Board();
         Rules.all(board);

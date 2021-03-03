@@ -13,18 +13,14 @@ import static com.marekscholle.sudoku.Const.SIZE;
 import static com.marekscholle.sudoku.Const.SUBGRID_SIZE;
 
 public class Board {
-    final private Box[][] boxes;
-
-    public Board() {
-        boxes = new Box[SIZE][];
-        for (int i = 0; i < SIZE; ++i) {
-            final var row = new Box[SIZE];
-            for (int j = 0; j < SIZE; ++j) {
-                row[j] = new Box(Pos.of(Row.of(i), Col.of(j)));
-            }
-            boxes[i] = row;
-        }
-    }
+    final private Box[][] boxes =
+            Row.values().stream()
+                    .map(row ->
+                            Col.values().stream()
+                                    .map(col -> new Box(Pos.of(row, col)))
+                                    .toArray(Box[]::new)
+                    )
+                    .toArray(Box[][]::new);
 
     public Box box(Pos pos) {
         return boxes[pos.row.value][pos.col.value];
