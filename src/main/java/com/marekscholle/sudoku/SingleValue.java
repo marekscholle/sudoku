@@ -1,6 +1,5 @@
 package com.marekscholle.sudoku;
 
-import com.marekscholle.sudoku.Const.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,11 +25,11 @@ public class SingleValue implements Rule {
     @Override
     public void onSetValue(Pos pos, Value value) {
         if (this.box.getPos().equals(pos)) {
-            if (!possibleValues[value.intValue()]) {
+            if (!possibleValues[value.value]) {
                 throw new IllegalStateException();
             }
             Arrays.fill(possibleValues, false);
-            possibleValues[value.intValue()] = true;
+            possibleValues[value.value] = true;
             possibleCount = 1;
         }
     }
@@ -38,8 +37,8 @@ public class SingleValue implements Rule {
     @Override
     public void onSetImpossible(Pos pos, Value value) {
         if (this.box.getPos().equals(pos)) {
-            if (possibleValues[value.intValue()]) {
-                possibleValues[value.intValue()] = false;
+            if (possibleValues[value.value]) {
+                possibleValues[value.value] = false;
                 possibleCount -= 1;
                 if (possibleCount == 1) {
                     for (int i = 0; i < SIZE; ++i) {

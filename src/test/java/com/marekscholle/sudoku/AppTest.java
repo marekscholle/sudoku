@@ -1,6 +1,5 @@
 package com.marekscholle.sudoku;
 
-import com.marekscholle.sudoku.Const.Value;
 import com.marekscholle.sudoku.Pos.Col;
 import com.marekscholle.sudoku.Pos.Row;
 import org.junit.Test;

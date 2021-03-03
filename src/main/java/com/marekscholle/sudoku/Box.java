@@ -1,6 +1,5 @@
 package com.marekscholle.sudoku;
 
-import com.marekscholle.sudoku.Const.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,28 +31,28 @@ public class Box {
     }
 
     public void setImpossible(Value value) {
-        if (possibleValues[value.intValue()]) {
+        if (possibleValues[value.value]) {
             LOGGER.debug("setImpossible {} {}", pos, value);
-            possibleValues[value.intValue()] = false;
+            possibleValues[value.value] = false;
             listeners.forEach(l -> l.onSetImpossible(pos, value));
         }
     }
 
     public boolean isPossible(Value value) {
-        return possibleValues[value.intValue()];
+        return possibleValues[value.value];
     }
 
     public void setValue(Value value) {
         if (isSet) {
-            if (!possibleValues[value.intValue()]) {
+            if (!possibleValues[value.value]) {
                 throw new IllegalStateException("setting to different value");
             }
-        } else if (!possibleValues[value.intValue()]) {
+        } else if (!possibleValues[value.value]) {
             throw new IllegalStateException("value not possible");
         } else {
             LOGGER.info("set value {} to {}", pos, value);
             for (int i = 0; i < SIZE; ++i) {
-                if (i != value.intValue()) {
+                if (i != value.value) {
                     setImpossible(Value.of(i));
                 }
             }
