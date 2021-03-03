@@ -34,7 +34,7 @@ public class Box {
     public void setImpossible(Value value) {
         assert this.value.stream().noneMatch(v -> v.equals(value));
         if (possibleValues[value.value]) {
-            LOGGER.debug("set impossible {} {}", pos, value);
+            LOGGER.debug("set impossible: {}, {}", pos, value);
             possibleValues[value.value] = false;
             listeners.forEach(l -> l.onSetImpossible(pos, value));
         }
@@ -51,11 +51,12 @@ public class Box {
         }
         assert possibleValues[value.value];
 
-        LOGGER.info("set value {} to {}", pos, value);
+        LOGGER.info("set value: {}, {}", pos, value);
+        this.value = Optional.of(value);
+
         Value.values().stream()
                 .filter(v -> !v.equals(value))
                 .forEach(this::setImpossible);
-        this.value = Optional.of(value);
         listeners.forEach(l -> l.onSetValue(pos, value));
     }
 }

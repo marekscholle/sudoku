@@ -1,5 +1,8 @@
 package com.marekscholle.sudoku;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -9,6 +12,8 @@ import java.util.Set;
  * on the same row/col in other subgrids.
  */
 abstract public class SubgridValue implements Rule {
+    private static final Logger LOGGER = LoggerFactory.getLogger("SubgridValue");
+
     protected final List<Box> subgrid;
     protected final Value value;
     protected final Board board;
@@ -52,7 +57,9 @@ abstract public class SubgridValue implements Rule {
             if (rows.size() != 1) {
                 return false;
             }
-            board.rowBoxes(rows.iterator().next()).forEach(b -> {
+            final var row = rows.iterator().next();
+            LOGGER.info("found the row for {} at subgrid {}: {}", value, pos, row);
+            board.rowBoxes(row).forEach(b -> {
                 if (subgrid.stream().noneMatch(s -> b.getPos().equals(s.getPos()))) {
                     b.setImpossible(value);
                 }
@@ -68,16 +75,18 @@ abstract public class SubgridValue implements Rule {
 
         @Override
         protected boolean _onSetImpossible(Pos pos, Value value) {
-            final Set<Pos.Col> rows = new HashSet<>();
+            final Set<Pos.Col> cols = new HashSet<>();
             subgrid.forEach(b -> {
                 if (b.isPossible(value)) {
-                    rows.add(b.getPos().col);
+                    cols.add(b.getPos().col);
                 }
             });
-            if (rows.size() != 1) {
+            if (cols.size() != 1) {
                 return false;
             }
-            board.colBoxes(rows.iterator().next()).forEach(b -> {
+            final var col = cols.iterator().next();
+            LOGGER.info("found the col for {} at subgrid {}: {}", value, pos, col);
+            board.colBoxes(cols.iterator().next()).forEach(b -> {
                 if (subgrid.stream().noneMatch(s -> b.getPos().equals(s.getPos()))) {
                     b.setImpossible(value);
                 }

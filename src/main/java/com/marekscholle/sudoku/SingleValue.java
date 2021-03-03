@@ -43,7 +43,7 @@ public class SingleValue implements Rule {
                 Value.values().stream()
                         .filter(v -> possibleValues[v.value])
                         .forEach(v -> {
-                            LOGGER.debug("the only possible value for {} is {}", box.getPos(), v);
+                            LOGGER.info("found the only possible value: {}, {}", box.getPos(), v);
                             box.setValue(v);
                         });
             }

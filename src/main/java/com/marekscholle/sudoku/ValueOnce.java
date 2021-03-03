@@ -24,7 +24,7 @@ public abstract class ValueOnce implements Rule {
     public void onSetValue(Pos pos, Value value) {
         if (this.value.equals(value)) {
             assert boxes.stream().anyMatch(b -> b.getPos().equals(pos));
-            LOGGER.debug("{}: set {} at {}", description(), value, pos);
+            LOGGER.debug("{}: set {}, {}", description(), pos, value);
             boxes
                     .stream()
                     .filter(b -> !b.getPos().equals(pos))
@@ -38,7 +38,7 @@ public abstract class ValueOnce implements Rule {
     public void onSetImpossible(Pos pos, Value value) {
         if (value.equals(this.value)) {
             assert boxes.stream().anyMatch(b -> b.getPos().equals(pos));
-            LOGGER.debug("{}: set impossible {} at {}", description(), value, pos);
+            LOGGER.debug("{}: set impossible {}, {}", description(), pos, value);
             final var possibleBoxes = boxes
                     .stream()
                     .filter(b -> b.isPossible(value))

@@ -5,8 +5,9 @@
         </encoder>
     </appender>
     <logger name="ValueOnce" level="INFO"/>
-    <logger name="Box" level="INFO"/>
+    <logger name="Box" level="DEBUG"/>
     <logger name="SingleValue" level="INFO"/>
+    <logger name="SubgridValue" level="INFO"/>
     <root level="DEBUG">
         <appender-ref ref="console"/>
     </root>
