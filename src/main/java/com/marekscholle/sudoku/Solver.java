@@ -44,6 +44,6 @@ public class Solver {
                 board.restore(snapshot);
             }
         }
-        throw new IllegalStateException("guess did not solve the board");
+        throw new IllegalStateException("run did not solve the board");
     }
 }
