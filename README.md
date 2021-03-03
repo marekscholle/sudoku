@@ -53,10 +53,10 @@ We can't reliably recognize a programming bug from invalid input.
 ## Implementation
 
 The idea is simple, for every field in the 9x9 board (grid) we store which 
-numbers are possible/impossible, and on any progress we make we run trigger
+numbers are possible/impossible, and on any progress we make we trigger
 rule checkers that may do some more progress. E.g. if we set a number as 
 impossible for a field and we detect there remains only one possible value
-for the field, we set it ... and trigger another cascade of such checks.
+for that field, we set it ... and trigger another cascade of such checks.
 
 If our primitive checkers can't make any progress, we take an appropriate
 field and try to set possible values for it and solve the problem
