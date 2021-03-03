@@ -37,7 +37,7 @@ public class AppTest {
         var input = Input.read(exercise);
         input.elems.forEach(e -> board.box(e.pos).setValue(e.value));
         if (guess) {
-            Solver.guess(board);
+            Solver.run(board);
         }
         checkResult(input, board);
         LOGGER.info("Result:\n{}", Visualizer.draw(board));
@@ -69,7 +69,7 @@ public class AppTest {
     public void empty() {
         var board = new Board();
         Rules.all(board);
-        Solver.guess(board);
+        Solver.run(board);
         LOGGER.info("empty solution (one of many):\n{}", Visualizer.draw(board));
     }
 }

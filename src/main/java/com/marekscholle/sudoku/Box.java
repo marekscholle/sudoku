@@ -11,6 +11,14 @@ import java.util.stream.Collectors;
 
 import static com.marekscholle.sudoku.Const.SIZE;
 
+/**
+ * Mutable field from sudoku grid.
+ * It manages which numbers are possible/impossoble for given field,
+ * when a number is marked as set or as impossible, it triggers
+ * registered {@link Rule} callbacks.
+ * It throws on illegal attempt which happens if the {@link Board} configuration
+ * is invalid.
+ */
 public class Box {
     private static final Logger LOGGER = LoggerFactory.getLogger("Box");
 
@@ -35,7 +43,7 @@ public class Box {
 
     public void setImpossible(Value value) {
         if (this.value.isPresent() && this.value.get().equals(value)) {
-            throw new IllegalStateException("set value can't be impossible");
+            throw new IllegalStateException("value already set can't be impossible");
         }
         if (possibleValues[value.value]) {
             LOGGER.debug("set impossible: {}, {}", pos, value);
@@ -80,7 +88,7 @@ public class Box {
         listeners.forEach(l -> l.onSetValue(pos, value));
     }
 
-    public Snapshot snap() {
+    public Snapshot snapshot() {
         return new Snapshot(
                 Arrays.copyOf(possibleValues, possibleValues.length),
                 this.value

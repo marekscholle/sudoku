@@ -10,14 +10,14 @@ public class Solver {
     private static final Logger LOGGER = LoggerFactory.getLogger("Solver");
 
     /**
-     * Recursive trial of solution.
+     * Recursive trying of solution.
      * It returns true if we have a solution.
      * It selects a box and tries its possible values. For each possible value,
      * it runs all the rules; if we reach a problem, exception is thrown and we
      * restore the state before setting and continue.
      * If we don't get a solution, we recursively try another box.
      */
-    static boolean guess(Board board) {
+    static boolean run(Board board) {
         // find a box with multiple possible values; select that has min possible values (>1)
         final Optional<Box> boxOptional = Pos.values().stream()
                 .map(board::box)
@@ -36,7 +36,7 @@ public class Solver {
             LOGGER.debug("trying: {}, {}", box.getPos(), value);
             try {
                 box.setValue(value);
-                if (guess(board)) {
+                if (run(board)) {
                     return true;
                 }
             } catch (Exception e) {

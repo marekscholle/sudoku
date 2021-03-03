@@ -8,6 +8,10 @@ import org.slf4j.LoggerFactory;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Rule: value appears exactly once in given region.
+ * Registers self as listener for region boxes.
+ */
 public abstract class ValueOnce implements Rule {
     private static final Logger LOGGER = LoggerFactory.getLogger("ValueOnce");
 

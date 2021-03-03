@@ -55,7 +55,7 @@ public class Board {
                 Pos.values().stream()
                         .collect(Collectors.toMap(
                                 Function.identity(),
-                                pos -> box(pos).snap()
+                                pos -> box(pos).snapshot()
                         ))
         );
     }

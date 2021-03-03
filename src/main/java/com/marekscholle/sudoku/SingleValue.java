@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
  * Rule that a box may have only one filled value.
  * It triggers {@link Box#setValue} if it detects that there remains
  * only single possible value.
+ * Registers self as listener for its box.
  */
 public class SingleValue implements Rule {
     private static final Logger LOGGER = LoggerFactory.getLogger("SingleValue");

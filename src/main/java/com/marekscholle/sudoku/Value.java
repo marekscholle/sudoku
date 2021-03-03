@@ -7,6 +7,9 @@ import java.util.stream.IntStream;
 
 import static com.marekscholle.sudoku.Const.SIZE;
 
+/**
+ * Box value wrapper (in 0..8).
+ */
 class Value {
     final int value;
 

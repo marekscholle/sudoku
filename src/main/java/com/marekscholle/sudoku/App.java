@@ -21,7 +21,7 @@ public class App {
         });
         LOGGER.info("Intermediate result after set all input values:\n{}", Visualizer.draw(board));
 
-        Solver.guess(board);
+        Solver.run(board);
         LOGGER.info("Result:\n{}", Visualizer.draw(board));
     }
 
@@ -37,7 +37,7 @@ public class App {
         try {
             solve(input);
         } catch (Exception e) {
-            System.out.println("Error while solving, perhaps there is no solution for it");
+            System.out.println("Error while solving the puzzle, perhaps there is no solution for it.");
             e.printStackTrace();
             System.exit(1);
         }

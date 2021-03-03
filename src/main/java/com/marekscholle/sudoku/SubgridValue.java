@@ -10,6 +10,9 @@ import java.util.Set;
 /**
  * If a value is possible only in some row/col in subgrid, then it is impossible
  * on the same row/col in other subgrids.
+ * This is a helper rule which may advance in some cases where more
+ * primitive rules won't make any progress.
+ * Registers self as listener for subgrid boxes.
  */
 abstract public class SubgridValue implements Rule {
     private static final Logger LOGGER = LoggerFactory.getLogger("SubgridValue");

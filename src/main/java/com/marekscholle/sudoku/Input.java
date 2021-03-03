@@ -15,24 +15,6 @@ public class Input {
         this.elems = elems;
     }
 
-    public static class Elem {
-        final Pos pos;
-        final Value value;
-
-        Elem(Pos pos, Value value) {
-            this.pos = pos;
-            this.value = value;
-        }
-
-        @Override
-        public String toString() {
-            return "Input{" +
-                    "pos=" + pos +
-                    ", value=" + value +
-                    '}';
-        }
-    }
-
     /**
      * Interprets given string as sudoku input.
      * The format of input is {@code <row>|<row>|...|<row>}
@@ -59,5 +41,23 @@ public class Input {
             });
         });
         return new Input(elems);
+    }
+
+    public static class Elem {
+        final Pos pos;
+        final Value value;
+
+        Elem(Pos pos, Value value) {
+            this.pos = pos;
+            this.value = value;
+        }
+
+        @Override
+        public String toString() {
+            return "Input{" +
+                    "pos=" + pos +
+                    ", value=" + value +
+                    '}';
+        }
     }
 }

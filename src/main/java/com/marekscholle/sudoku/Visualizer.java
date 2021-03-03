@@ -18,6 +18,9 @@ public class Visualizer {
 
     private static final String hline = ("═".repeat(91)) + '\n';
 
+    /**
+     * Primitive ASCII-art vizualization of current board state.
+     */
     static String draw(Board board) {
         var b = new StringBuilder();
         b.append(hline);

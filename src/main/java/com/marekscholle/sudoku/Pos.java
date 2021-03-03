@@ -8,6 +8,10 @@ import java.util.stream.IntStream;
 
 import static com.marekscholle.sudoku.Const.SIZE;
 
+/**
+ * Value class for position on board.
+ * Effectively a pair (row, col).
+ */
 public class Pos {
     final Row row;
     final Col col;
@@ -68,6 +72,9 @@ public class Pos {
         return "Pos(" + row.value + "," + col.value + ')';
     }
 
+    /**
+     * Row number wrapper (in 0..8).
+     */
     static class Row {
         final int value;
 
@@ -114,6 +121,9 @@ public class Pos {
         }
     }
 
+    /**
+     * Col number wrapper (in 0..8).
+     */
     static class Col {
         final int value;
 
