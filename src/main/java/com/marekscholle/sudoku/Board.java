@@ -6,6 +6,8 @@ import com.marekscholle.sudoku.Pos.Row;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -48,5 +50,26 @@ public class Board {
             }
         }
         return res;
+    }
+
+    public Snap snap() {
+        return new Snap(
+                Pos.values().stream().collect(Collectors.toMap(
+                        Function.identity(),
+                        pos -> box(pos).snap()
+                ))
+        );
+    }
+
+    public void recover(Snap snap) {
+        snap.boxes.forEach((key, value) -> box(key).recover(value));
+    }
+
+    static class Snap {
+        private final Map<Pos, Box.Snap> boxes;
+
+        Snap(Map<Pos, Box.Snap> boxes) {
+            this.boxes = boxes;
+        }
     }
 }

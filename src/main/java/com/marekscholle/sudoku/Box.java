@@ -15,13 +15,13 @@ public class Box {
     private static final Logger LOGGER = LoggerFactory.getLogger("Box");
 
     private final Pos pos;
-    private final boolean[] possibleValues;
-    private Optional<Value> value = Optional.empty();
     private final ArrayList<Rule> listeners = new ArrayList<>();
+
+    private boolean[] possibleValues = new boolean[SIZE];
+    private Optional<Value> value = Optional.empty();
 
     public Box(Pos pos) {
         this.pos = pos;
-        possibleValues = new boolean[SIZE];
         Arrays.fill(possibleValues, true);
     }
 
@@ -64,5 +64,27 @@ public class Box {
                 .filter(v -> !v.equals(value))
                 .forEach(this::setImpossible);
         listeners.forEach(l -> l.onSetValue(pos, value));
+    }
+
+    public Snap snap() {
+        return new Snap(
+                Arrays.copyOf(possibleValues, possibleValues.length),
+                this.value
+        );
+    }
+
+    public void recover(Snap snap) {
+        this.possibleValues = Arrays.copyOf(snap.possibleValues, snap.possibleValues.length);
+        this.value = snap.value;
+    }
+
+    static class Snap {
+        private final boolean[] possibleValues;
+        private final Optional<Value> value;
+
+        Snap(boolean[] possibleValues, Optional<Value> value) {
+            this.possibleValues = possibleValues;
+            this.value = value;
+        }
     }
 }

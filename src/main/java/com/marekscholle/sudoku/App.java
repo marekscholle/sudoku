@@ -10,7 +10,10 @@ public class App {
         final var input = Input.read(args[0]);
 
         final var board = new Board();
-        Rules.all(board);
+        //Rules.all(board);
+        Rules.valueOnce(board);
+        Rules.singleValue(board);
+        //Rules.subgridValue(board);
 
         input.forEach(
                 in -> {
@@ -19,7 +22,10 @@ public class App {
                     LOGGER.info("Intermediate result:\n{}", Visualizer.draw(board));
                 }
         );
+        LOGGER.info("Intermediate result after set all input values:\n{}", Visualizer.draw(board));
 
+
+        Solver.guess(board);
         LOGGER.info("Result:\n{}", Visualizer.draw(board));
     }
 }
