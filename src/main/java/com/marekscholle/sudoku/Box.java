@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Optional;
 
 import static com.marekscholle.sudoku.Const.SIZE;
 
@@ -13,7 +14,7 @@ public class Box {
 
     private final Pos pos;
     private final boolean[] possibleValues;
-    private boolean isSet = false;
+    private Optional<Value> value = Optional.empty();
     private final ArrayList<Rule> listeners = new ArrayList<>();
 
     public Box(Pos pos) {
@@ -31,8 +32,9 @@ public class Box {
     }
 
     public void setImpossible(Value value) {
+        assert this.value.stream().noneMatch(v -> v.equals(value));
         if (possibleValues[value.value]) {
-            LOGGER.debug("setImpossible {} {}", pos, value);
+            LOGGER.debug("set impossible {} {}", pos, value);
             possibleValues[value.value] = false;
             listeners.forEach(l -> l.onSetImpossible(pos, value));
         }
@@ -43,21 +45,17 @@ public class Box {
     }
 
     public void setValue(Value value) {
-        if (isSet) {
-            if (!possibleValues[value.value]) {
-                throw new IllegalStateException("setting to different value");
-            }
-        } else if (!possibleValues[value.value]) {
-            throw new IllegalStateException("value not possible");
-        } else {
-            LOGGER.info("set value {} to {}", pos, value);
-            for (int i = 0; i < SIZE; ++i) {
-                if (i != value.value) {
-                    setImpossible(Value.of(i));
-                }
-            }
-            isSet = true;
-            listeners.forEach(l -> l.onSetValue(pos, value));
+        if (this.value.isPresent()) {
+            assert this.value.get().equals(value);
+            return;
         }
+        assert possibleValues[value.value];
+
+        LOGGER.info("set value {} to {}", pos, value);
+        Value.values().stream()
+                .filter(v -> !v.equals(value))
+                .forEach(this::setImpossible);
+        this.value = Optional.of(value);
+        listeners.forEach(l -> l.onSetValue(pos, value));
     }
 }
